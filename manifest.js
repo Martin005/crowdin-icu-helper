@@ -1,5 +1,5 @@
 module.exports = {
-  identifier: "icu-message-format-helper",
+  identifier: "icu-helper",
   name: "ICU Message Format Helper",
   baseUrl: process.env.BASE_URL,
   logo: "/logo.svg",
