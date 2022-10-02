@@ -1,0 +1,41 @@
+{
+  "name": "crowdin-icu-helper",
+  "version": "1.0.0",
+  "description": "ICU Message Format Helper for Crowdin",
+  "engines": {
+    "node": "16.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "yarn browserifyIcuParser && node index.js",
+    "browserifyIcuParser": "browserify icuParser.js --standalone icuParser > public/icuParser.js"
+  },
+  "dependencies": {
+    "@formatjs/icu-messageformat-parser": "^2.1.7",
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "browserify": "^17.0.0",
+    "ejs": "^3.1.5",
+    "express": "^4.15.2",
+    "got": "^11.8.5",
+    "jsonwebtoken": "^8.5.1",
+    "node-blob": "0.0.2",
+    "pg": "^8.7.3",
+    "sequelize": "^6.20.1",
+    "tape": "^4.7.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Martin005/crowdin-icu-helper"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}

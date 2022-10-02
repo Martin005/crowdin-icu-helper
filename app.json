@@ -1,0 +1,13 @@
+{
+  "name": "ICU Message Format Helper",
+  "description": "ICU Message Format Helper for Crowdin",
+  "repository": "https://github.com/Martin005/crowdin-icu-helper",
+  "logo": "https://cdn.rawgit.com/Martin005/crowdin-icu-helper/main/public/node.svg",
+  "keywords": ["crowdin", "node", "express", "heroku"],
+  "image": "heroku/nodejs",
+  "env": {
+    "HEROKU_APP_NAME": {
+      "required": true
+    }
+  }
+}
