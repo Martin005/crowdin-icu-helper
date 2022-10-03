@@ -301,47 +301,71 @@
               translationParsedIcu = getStringIcuInfo(data.text);
             }
 
-            if (stringIcuInfo.icuType === possibleStringIcuTypes.plural) {
-              buildUiForPluralString(translatePanel);
-            } else if (
-              stringIcuInfo.icuType === possibleStringIcuTypes.ordinal
-            ) {
-              buildUiForOrdinalString(translatePanel);
-            } else if (
-              stringIcuInfo.icuType === possibleStringIcuTypes.select
-            ) {
-              buildUiForSelectString(translatePanel, stringIcuInfo);
-            } else if (
-              stringIcuInfo.icuType === possibleStringIcuTypes.pluralWithSelect
-            ) {
-              buildUiForPluralWithSelectString(translatePanel, stringIcuInfo);
-            } else if (
-              stringIcuInfo.icuType === possibleStringIcuTypes.ordinalWithSelect
-            ) {
-              buildUiForOrdinalWithSelectString(translatePanel, stringIcuInfo);
-            } else if (
-              stringIcuInfo.icuType === possibleStringIcuTypes.selectWithPlural
-            ) {
-              buildUiForSelectWithPluralString(translatePanel, stringIcuInfo);
-            } else if (
-              stringIcuInfo.icuType === possibleStringIcuTypes.selectWithOrdinal
-            ) {
-              buildUiForSelectWithOrdinalString(translatePanel, stringIcuInfo);
-            }
+            AP.getContext(function (data) {
+              const targetLanguageCode = data.editor.target_language_id;
 
-            // Fill in the preview with empty generated ICU translation
-            document
-              .getElementById("translation-preview-code")
-              .setAttribute("code", getGeneratedIcuTranslation());
+              if (stringIcuInfo.icuType === possibleStringIcuTypes.plural) {
+                buildUiForPluralString(translatePanel, targetLanguageCode);
+              } else if (
+                stringIcuInfo.icuType === possibleStringIcuTypes.ordinal
+              ) {
+                buildUiForOrdinalString(translatePanel, targetLanguageCode);
+              } else if (
+                stringIcuInfo.icuType === possibleStringIcuTypes.select
+              ) {
+                buildUiForSelectString(translatePanel, stringIcuInfo);
+              } else if (
+                stringIcuInfo.icuType ===
+                possibleStringIcuTypes.pluralWithSelect
+              ) {
+                buildUiForPluralWithSelectString(
+                  translatePanel,
+                  stringIcuInfo,
+                  targetLanguageCode
+                );
+              } else if (
+                stringIcuInfo.icuType ===
+                possibleStringIcuTypes.ordinalWithSelect
+              ) {
+                buildUiForOrdinalWithSelectString(
+                  translatePanel,
+                  stringIcuInfo,
+                  targetLanguageCode
+                );
+              } else if (
+                stringIcuInfo.icuType ===
+                possibleStringIcuTypes.selectWithPlural
+              ) {
+                buildUiForSelectWithPluralString(
+                  translatePanel,
+                  stringIcuInfo,
+                  targetLanguageCode
+                );
+              } else if (
+                stringIcuInfo.icuType ===
+                possibleStringIcuTypes.selectWithOrdinal
+              ) {
+                buildUiForSelectWithOrdinalString(
+                  translatePanel,
+                  stringIcuInfo,
+                  targetLanguageCode
+                );
+              }
+
+              // Fill in the preview with empty generated ICU translation
+              document
+                .getElementById("translation-preview-code")
+                .setAttribute("code", getGeneratedIcuTranslation());
+            });
           });
         } else {
           makeUiEditorInvisible();
         }
       }
 
-      function buildUiForPluralString(translatePanel) {
+      function buildUiForPluralString(translatePanel, targetLanguageCode) {
         var pluralCategories = new Intl.PluralRules(
-          getTargetLanguage()
+          targetLanguageCode
         ).resolvedOptions().pluralCategories;
         var sortedPluralCategories = pluralCategories.sort(
           (a, b) =>
@@ -386,8 +410,8 @@
         translatePanel.appendChild(tabs);
       }
 
-      function buildUiForOrdinalString(translatePanel) {
-        var ordinalCategories = new Intl.PluralRules(getTargetLanguage(), {
+      function buildUiForOrdinalString(translatePanel, targetLanguageCode) {
+        var ordinalCategories = new Intl.PluralRules(targetLanguageCode, {
           type: "ordinal",
         }).resolvedOptions().pluralCategories;
 
@@ -475,9 +499,13 @@
         translatePanel.appendChild(tabs);
       }
 
-      function buildUiForPluralWithSelectString(translatePanel, stringIcuInfo) {
+      function buildUiForPluralWithSelectString(
+        translatePanel,
+        stringIcuInfo,
+        targetLanguageCode
+      ) {
         var pluralCategories = new Intl.PluralRules(
-          getTargetLanguage()
+          targetLanguageCode
         ).resolvedOptions().pluralCategories;
         var sortedPluralCategories = pluralCategories.sort(
           (a, b) =>
@@ -556,9 +584,10 @@
 
       function buildUiForOrdinalWithSelectString(
         translatePanel,
-        stringIcuInfo
+        stringIcuInfo,
+        targetLanguageCode
       ) {
-        var ordinalCategories = new Intl.PluralRules(getTargetLanguage(), {
+        var ordinalCategories = new Intl.PluralRules(targetLanguageCode, {
           type: "ordinal",
         }).resolvedOptions().pluralCategories;
 
@@ -643,10 +672,14 @@
         translatePanel.appendChild(tabs);
       }
 
-      function buildUiForSelectWithPluralString(translatePanel, stringIcuInfo) {
+      function buildUiForSelectWithPluralString(
+        translatePanel,
+        stringIcuInfo,
+        targetLanguageCode
+      ) {
         const selectForms = stringIcuInfo.selectForms;
         var pluralCategories = new Intl.PluralRules(
-          getTargetLanguage()
+          targetLanguageCode
         ).resolvedOptions().pluralCategories;
         var sortedPluralCategories = pluralCategories.sort(
           (a, b) =>
@@ -724,10 +757,11 @@
 
       function buildUiForSelectWithOrdinalString(
         translatePanel,
-        stringIcuInfo
+        stringIcuInfo,
+        targetLanguageCode
       ) {
         const selectForms = stringIcuInfo.selectForms;
-        var ordinalCategories = new Intl.PluralRules(getTargetLanguage(), {
+        var ordinalCategories = new Intl.PluralRules(targetLanguageCode, {
           type: "ordinal",
         }).resolvedOptions().pluralCategories;
 
@@ -1170,12 +1204,6 @@
         AP.events.on("string.change", function (data) {
           removeCurrentUi();
           updateUiBasedOnSourceString(data.text);
-        });
-      }
-
-      function getTargetLanguage() {
-        AP.getContext(function (data) {
-          return data.editor.target_language_id;
         });
       }
     </script>
