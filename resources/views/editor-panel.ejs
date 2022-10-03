@@ -1188,8 +1188,8 @@
 
       function removeCurrentUi() {
         const translatePanel = document.getElementById("translate-panel");
-        if (translatePanel.firstElementChild) {
-          translatePanel.firstElementChild.remove();
+        while (translatePanel.firstElementChild) {
+          translatePanel.removeChild(translatePanel.firstElementChild);
         }
         translationParsedIcu = {};
         translatePanel.removeAttribute("data-icu");
