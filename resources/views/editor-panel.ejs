@@ -286,6 +286,7 @@
       }
 
       function updateUiBasedOnSourceString(sourceString) {
+        removeCurrentUi();
         const stringIcuInfo = getStringIcuInfo(sourceString);
         if (stringIcuInfo) {
           makeUiEditorVisible();
@@ -407,7 +408,9 @@
 
         addTabKeyEventListeners(tabs);
 
-        translatePanel.appendChild(tabs);
+        if (!translatePanel.firstChild) {
+          translatePanel.appendChild(tabs);
+        }
       }
 
       function buildUiForOrdinalString(translatePanel, targetLanguageCode) {
@@ -460,7 +463,9 @@
 
         addTabKeyEventListeners(tabs);
 
-        translatePanel.appendChild(tabs);
+        if (!translatePanel.firstChild) {
+          translatePanel.appendChild(tabs);
+        }
       }
 
       function buildUiForSelectString(translatePanel, stringIcuInfo) {
@@ -496,7 +501,9 @@
 
         addTabKeyEventListeners(tabs);
 
-        translatePanel.appendChild(tabs);
+        if (!translatePanel.firstChild) {
+          translatePanel.appendChild(tabs);
+        }
       }
 
       function buildUiForPluralWithSelectString(
@@ -579,7 +586,9 @@
           tabs.appendChild(tabDivElement);
         }
 
-        translatePanel.appendChild(tabs);
+        if (!translatePanel.firstChild) {
+          translatePanel.appendChild(tabs);
+        }
       }
 
       function buildUiForOrdinalWithSelectString(
@@ -669,7 +678,9 @@
           tabs.appendChild(tabDivElement);
         }
 
-        translatePanel.appendChild(tabs);
+        if (!translatePanel.firstChild) {
+          translatePanel.appendChild(tabs);
+        }
       }
 
       function buildUiForSelectWithPluralString(
@@ -752,7 +763,9 @@
           tabs.appendChild(tabDivElement);
         }
 
-        translatePanel.appendChild(tabs);
+        if (!translatePanel.firstChild) {
+          translatePanel.appendChild(tabs);
+        }
       }
 
       function buildUiForSelectWithOrdinalString(
@@ -841,7 +854,9 @@
           tabs.appendChild(tabDivElement);
         }
 
-        translatePanel.appendChild(tabs);
+        if (!translatePanel.firstChild) {
+          translatePanel.appendChild(tabs);
+        }
       }
 
       function styleTextArea(textArea) {
@@ -1187,8 +1202,8 @@
 
       function removeCurrentUi() {
         const translatePanel = document.getElementById("translate-panel");
-        if (translatePanel.firstElementChild) {
-          translatePanel.firstElementChild.remove();
+        while (translatePanel.firstElementChild) {
+          translatePanel.removeChild(translatePanel.firstElementChild);
         }
         translationParsedIcu = {};
         translatePanel.removeAttribute("data-icu");
@@ -1202,7 +1217,6 @@
 
         // Every other time
         AP.events.on("string.change", function (data) {
-          removeCurrentUi();
           updateUiBasedOnSourceString(data.text);
         });
       }
