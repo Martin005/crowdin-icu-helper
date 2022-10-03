@@ -286,6 +286,7 @@
       }
 
       function updateUiBasedOnSourceString(sourceString) {
+        removeCurrentUi();
         const stringIcuInfo = getStringIcuInfo(sourceString);
         if (stringIcuInfo) {
           makeUiEditorVisible();
@@ -1202,7 +1203,6 @@
 
         // Every other time
         AP.events.on("string.change", function (data) {
-          removeCurrentUi();
           updateUiBasedOnSourceString(data.text);
         });
       }
