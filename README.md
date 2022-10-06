@@ -4,6 +4,8 @@
 
 This repository contains source code for the ICU Message Helper App for Crowdin. The Helper assists translators with the translation of strings with an [ICU Message](https://unicode-org.github.io/icu/userguide/format_parse/messages/).
 
+The App is available for installation through the official [Crowdin Marketplace](https://store.crowdin.com/icu-helper).
+
 ## Running Locally
 
 Make sure you have [Node.js](http://nodejs.org/) installed.
