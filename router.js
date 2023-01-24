@@ -41,49 +41,6 @@ router.get("/editor-page/", authorizeUser, (req, res) =>
   res.render("editor-panel")
 );
 
-router.post(
-  "/projects/:projectId/translations",
-  authorizeUser,
-  async (req, res) => {
-    if (!res.locals.isAuthorized) {
-      return res
-        .status(403)
-        .send({ error: { message: "User is not authorized" } });
-    }
-
-    const organization = await Organization.findOne({
-      where: {
-        domain: res.locals.jwt.domain,
-        organizationId: res.locals.jwt.context.organization_id,
-      },
-    });
-
-    if (!organization) {
-      return res
-        .status(404)
-        .send({ error: { message: "Organization not found" } });
-    }
-
-    try {
-      const client = await apiClient(organization);
-      const response = await client.post(
-        `/projects/${req.params.projectId}/translations`,
-        req.body
-      );
-
-      return res.status(200).json(response.data || {});
-    } catch (e) {
-      console.log(e);
-
-      return res.status(500).send({
-        error: {
-          message: "Unknown error occurred",
-        },
-      });
-    }
-  }
-);
-
 router.get("/user", authorizeUser, async (req, res) => {
   if (!res.locals.isAuthorized) {
     return res
