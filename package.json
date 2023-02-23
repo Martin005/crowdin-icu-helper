@@ -21,7 +21,7 @@
     "jsonwebtoken": "^9.0.0",
     "node-blob": "0.0.2",
     "pg": "^8.7.3",
-    "sequelize": "^6.20.1",
+    "sequelize": "^6.28.2",
     "tape": "^4.7.0",
     "uuid": "^8.3.2"
   },
